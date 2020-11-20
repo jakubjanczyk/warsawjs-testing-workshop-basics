@@ -45,7 +45,7 @@ describe('totalPriceForProducts', () => {
 });
 
 
-describe.skip('delivery cost', () => {
+describe('delivery cost', () => {
     // Napisz testy funkcji o sygnaturze: calculator.deliveryCost(productsPrice)
     // Funkcja ta zwraca koszt przesyłki, w zależności od sumy ceny produktów:
     // Jeśli cena produktów < 50, koszty przesyłki wynoszą 20
@@ -54,4 +54,34 @@ describe.skip('delivery cost', () => {
 
     // TODO: Napisz przynajmniej 3 testy wryfikujące opisane działanie funkcji
     // HINT: Testy powinny być napisane z zachowaniem struktury Arrange-Act-Assert
+
+    let calculator;
+
+    beforeEach(() => {
+        calculator = pricesCalculator();
+    });
+
+    it('should return 20 when price less than 50', () => {
+        const totalPrice = 49;
+
+        const deliveryCost = calculator.deliveryCost(totalPrice);
+
+        expect(deliveryCost).toEqual(20);
+    });
+
+    it('should return 10 when price less than 100', () => {
+        const totalPrice = 99;
+
+        const deliveryCost = calculator.deliveryCost(totalPrice);
+
+        expect(deliveryCost).toEqual(10);
+    });
+
+    it('should return 0 when price more than 150', () => {
+        const totalPrice = 200;
+
+        const deliveryCost = calculator.deliveryCost(totalPrice);
+
+        expect(deliveryCost).toEqual(0);
+    });
 });
