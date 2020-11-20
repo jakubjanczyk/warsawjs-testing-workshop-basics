@@ -5,9 +5,3 @@ describe.skip('fizz buzz', () => {
     });
 });
 
-
-
-const fizzBuzz = (n) => {
-}
-
-

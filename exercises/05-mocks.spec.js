@@ -1,6 +1,8 @@
 const { EmailService } = require('../src/EmailService');
 const { OrderService } = require('../src/OrderService');
 
+// Bardzo dobry artykuł na temat różnych typów "test doubles":
+// https://blog.pragmatists.com/test-doubles-fakes-mocks-and-stubs-1a7491dfa3da
 
 it.skip('should send email when order started', () => {
     // DEMO

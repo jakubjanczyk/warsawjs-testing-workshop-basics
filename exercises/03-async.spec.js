@@ -1,8 +1,6 @@
 const { InMemoryRepository } = require('../src/InMemoryRepository');
 const { ProductsService } = require('../src/ProductsService');
 
-
-
 it.skip('should return empty list if no products',  () => {
     // DEMO
 });
