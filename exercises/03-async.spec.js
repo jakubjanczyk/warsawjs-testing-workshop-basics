@@ -34,11 +34,36 @@ it('should not allow to add a product with no count', async () => {
 
 
 // TODO: Napisz test, który w którym dodasz dwa produkty i sprawdzisz, że oba są pobrane po wywołaniu metody products()
+it('should add two products', async () => {
+    const product1 = {id: '1', count: 1}
+    const product2 = {id: '2', count: 1}
+    const productsService = new ProductsService();
 
+    await productsService.addProduct(product1);
+    await productsService.addProduct(product2);
+
+    expect(await productsService.products()).toEqual([product1, product2]);
+});
 
 // TODO: Napisz test, który doda przynamniej jeden produkt i zweryfikuje, że da się go pobrać za pomocą ID
 // HINT: użyj metody productById(productId) do pobrania produktu
+it('should add two products', async () => {
+    const product1 = {id: '1', count: 1}
+    const product2 = {id: '2', count: 1}
+    const productsService = new ProductsService();
+    await productsService.addProduct(product1);
+    await productsService.addProduct(product2);
 
+    const productById = await productsService.productById('2');
+
+    expect(productById).toEqual(product2);
+});
 
 // TODO: Napisz test, który w którym próba dodania produktu bez pola id skutkuje rzuceniem błędu
 // HINT: użyj asercji expect().rejects.toThrowError
+it('should add two products', async () => {
+    const product = {count: 1}
+    const productsService = new ProductsService();
+
+    await expect(productsService.addProduct(product)).rejects.toThrowError('Cannot add a product without ID');
+});
