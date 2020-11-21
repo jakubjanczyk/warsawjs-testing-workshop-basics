@@ -1,23 +1,72 @@
 const { EmailService } = require('../src/EmailService');
 const { OrderService } = require('../src/OrderService');
+const uuid = require('uuid');
 
 // Bardzo dobry artykuł na temat różnych typów "test doubles":
 // https://blog.pragmatists.com/test-doubles-fakes-mocks-and-stubs-1a7491dfa3da
 
-it.skip('should send email when order started', () => {
-    // DEMO
+jest.mock('uuid', () => ({
+    v4: jest.fn()
+}));
+
+it('should send email when order started', () => {
+    const emailServiceMock = {
+        send: jest.fn()
+    }
+    const orderService = new OrderService(emailServiceMock);
+
+    orderService.orderStarted();
+
+    expect(emailServiceMock.send).toHaveBeenCalledWith('Twoje zamówienie zostało rozpoczęte.');
 });
 
-it.skip('should return order id when started', () => {
-    // DEMO
+it('should return order id when started', () => {
+    uuid.v4.mockImplementation(() => '12345');
+    const emailServiceMock = {
+        send: jest.fn()
+    }
+    const orderService = new OrderService(emailServiceMock);
+
+    const id = orderService.orderStarted();
+
+    expect(id).toEqual('12345')
 });
 
-it.skip('should send send email with package number when order shipped', () => {
-    // DEMO
+it('should send send email with package number when order shipped', () => {
+    const emailServiceMock = {
+        send: jest.fn()
+    };
+    const shipmentServiceMock = {
+        generatePackageNumber: jest.fn()
+    }
+    shipmentServiceMock.generatePackageNumber.mockReturnValue('123')
+    const orderService = new OrderService(emailServiceMock, shipmentServiceMock);
+
+    orderService.orderShipped('12345');
+
+    expect(emailServiceMock.send).toHaveBeenCalledWith('Twoje zamówienie zostało wysłane z numerem 123.');
+    expect(shipmentServiceMock.generatePackageNumber).toHaveBeenCalledTimes(1);
 });
 
-it.skip('should handle two packages to be shipped', () => {
+it('should handle two packages to be shipped', () => {
     // DEMO
+    const emailServiceMock = {
+        send: jest.fn()
+    };
+    const shipmentServiceMock = {
+        generatePackageNumber: jest.fn()
+    }
+    shipmentServiceMock.generatePackageNumber
+      .mockReturnValueOnce('123')
+      .mockReturnValueOnce('234')
+    const orderService = new OrderService(emailServiceMock, shipmentServiceMock);
+
+    orderService.orderShipped('12345');
+    orderService.orderShipped('23456');
+
+    expect(emailServiceMock.send).toHaveBeenCalledWith('Twoje zamówienie zostało wysłane z numerem 123.');
+    expect(emailServiceMock.send).toHaveBeenCalledWith('Twoje zamówienie zostało wysłane z numerem 234.');
+    expect(shipmentServiceMock.generatePackageNumber).toHaveBeenCalledTimes(2);
 });
 
 
