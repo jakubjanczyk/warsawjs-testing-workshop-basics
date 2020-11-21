@@ -74,6 +74,20 @@ it('should handle two packages to be shipped', () => {
 // Metoda orderService.orderDelivered() działa podobnie jak metoda orderShipped
 // Pobiera ona numer paczki z ShipmentService (metoda getDeliveredPackageNumber())
 // Następnie wysyłany jest email z odpowiednią treścią
+it('should send send email with package number when order delivered', () => {
+    const emailServiceMock = {
+        send: jest.fn()
+    };
+    const shipmentServiceMock = {
+        getDeliveredPackageNumber: jest.fn()
+    }
+    shipmentServiceMock.getDeliveredPackageNumber.mockReturnValue('123')
+    const orderService = new OrderService(emailServiceMock, shipmentServiceMock);
 
+    orderService.orderDelivered('12345');
+
+    expect(emailServiceMock.send).toHaveBeenCalledWith('Twoja paczka numer 123 z zamówieniem została dostarczona.');
+    expect(shipmentServiceMock.getDeliveredPackageNumber).toHaveBeenCalledTimes(1);
+});
 
 
