@@ -42,6 +42,13 @@ class ProductsService {
             return this.repository.update({...fullProduct, count: fullProduct.count - product.count});
         }));
     }
+
+    async removeProduct(productId) {
+        if (!(await this.productById(productId))) {
+            throw new Error('Nie można usunąć elemntu, który nie istnieje');
+        }
+        return this.repository.remove(productId);
+    }
 }
 
 module.exports = { ProductsService };

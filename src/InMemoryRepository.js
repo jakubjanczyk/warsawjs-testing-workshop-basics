@@ -18,6 +18,13 @@ class InMemoryRepository {
             resolve();
         });
     }
+
+    remove(itemId) {
+        return new Promise((resolve) => {
+            this.items = this.items.filter(item => item.id !== itemId);
+            resolve();
+        });
+    }
 }
 
 module.exports = { InMemoryRepository };
