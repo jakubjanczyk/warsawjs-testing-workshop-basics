@@ -23,7 +23,7 @@ describe.skip('calculate discount', () => {
     // 5. Jeśli suma jest większa bądź równa 150 - znikżka wynosi 15% tej sumy
 
 
-    // 6. Zniżka nigdy nie może być większa niż 20
+    // 6. Zniżka nigdy nie może być większa niż 30
 
 });
 
